@@ -8,8 +8,8 @@ class Post extends Component {
         // characters are not allowed in URLs or need to be modified.
         return (
             <div className="Post">
-                <img src={post.data.thumbnail} className="verticalPostImage" alt="Post image" />
-                <p className="verticalPostTitle">{post.data.title}</p>
+                <img src={post.data.thumbnail} className="postImage" alt="Post image" />
+                <p className="postTitle">{post.data.title}</p>
             </div>
         );
   }

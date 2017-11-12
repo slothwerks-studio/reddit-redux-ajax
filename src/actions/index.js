@@ -29,3 +29,10 @@ function receiveReddit(redditFeed) {
         redditFeed
     };
 }
+
+// Post list style toggle
+export function postListToggle() {
+    return {
+        type: "POST_LIST_TOGGLE"
+    };
+}

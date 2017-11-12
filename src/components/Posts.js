@@ -5,7 +5,7 @@ class Posts extends Component {
 
   render() {
     return (
-      <div className="Posts">
+      <div className="Posts" id={this.props.listStyle}>
         {this.props.posts.map(post =>
             <Post key={post.url} post={post} />
         )}
