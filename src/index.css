@@ -4,3 +4,99 @@ body {
   font-family: sans-serif;
 }
 
+div, h1, h2, p, a {
+	box-sizing: border-box;
+}
+
+.App {
+	margin: 0 auto;
+	min-width: 320px;
+	max-width: 768px;
+	padding: 5px;
+}
+
+h1, h3, .postListToggle {
+	text-align: center;
+}
+
+.postListToggle:hover {
+	color: gray;
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+/* Here are the column list styles. */
+
+div#vertical {
+	display: flex;
+	flex-direction: column;
+}
+
+#vertical .Post {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	height: 152px;
+	padding: 5px;
+	margin-bottom: 10px;
+	border: 1px solid gray;
+	text-decoration: none;
+	color: black;
+	font-size: .9em;
+	font-weight: bold;
+	background: ghostwhite;
+}
+
+#vertical .Post:hover {
+	background: white;
+	box-shadow: 3px 3px 5px lightgray;
+}
+
+#vertical .postImage {
+	margin-right: 10px;
+	width: 140px;
+}
+
+/* Here are the grid styles. */
+
+div#grid {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+#grid .Post {
+	width: 152px;
+	height: 152px;
+	position: relative;
+	display: flex;
+	flex-direction: row;
+	padding: 5px;
+	margin: 0;
+	border: 1px solid gray;
+	text-decoration: none;
+}
+
+#grid .postTitle {
+	opacity: 0;
+	display: flex;
+	align-items: flex-end;
+	color: white;
+	position: absolute;
+	bottom: 3px;
+	left: 3px;
+	width: 134px;
+	height: 134px;
+	padding: 5px;
+	font-size: .9em;
+	font-weight: bold;
+}
+
+#grid .postTitle:hover {
+	opacity: 1.0;
+	background-color: rgba(255, 255, 255, 0.3);
+}
+

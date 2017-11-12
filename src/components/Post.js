@@ -7,10 +7,10 @@ class Post extends Component {
         // encodeURIComponent makes a string safe to include in a URL since some
         // characters are not allowed in URLs or need to be modified.
         return (
-            <div className="Post">
-                <img src={post.data.thumbnail} className="postImage" alt="Post image" />
-                <p className="postTitle">{post.data.title}</p>
-            </div>
+          <a className="Post" href={"https://www.reddit.com" + post.data.permalink} target="_blank">
+            <img src={post.data.thumbnail} className="postImage" alt="Post image" />
+            <span className="postTitle">{post.data.title}</span>
+          </a>
         );
   }
 }
