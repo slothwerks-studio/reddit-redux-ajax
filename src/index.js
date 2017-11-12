@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import reducer from './reducers';
+import { fetchReddit } from './actions';
 
 const store = createStore(
 	reducer,
@@ -18,6 +19,9 @@ const store = createStore(
         createLogger() // just to help us see what's going on
     )
 );
+
+// Trigger the fetchReddit "action"
+store.dispatch(fetchReddit());
 
 // We need wrap our whole app in the Provider component. This lets Redux do its magic.
 ReactDOM.render(
