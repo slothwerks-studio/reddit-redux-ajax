@@ -1,31 +1,64 @@
-import $ from 'jquery-ajax';
+import fetch from 'isomorphic-fetch';
 
-// trigger the process, make the request, and call the other two actions
-export function fetchReddit() {
-    // when using async actions and thunk, instead of returning the action object,
-    // we return a callback function. This has a `dispatch` parameter that we
-    // can use to dispatch other actions whenever we want.
-    return function(dispatch) {
-        dispatch(requestReddit());
-        $.get("https://www.reddit.com/r/aww.json", function(data) {
-            // Here is where we dig into the response JSON to find the data we actually need.
-            const redditFeed = data;
-            dispatch(receiveReddit(redditFeed));
-        });
-    };
+export const REQUEST_POSTS = 'REQUEST_POSTS';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+export const SELECT_SUBREDDIT = 'SELECT_SUBREDDIT';
+export const INVALIDATE_SUBREDDIT = 'INVALIDATE_SUBREDDIT';
+
+export function selectSubreddit(subreddit) {
+  return {
+    type: SELECT_SUBREDDIT,
+    subreddit
+  };
 }
 
-// Allow the reducer to update the state when the request starts loading.
-function requestReddit() {
-    return {
-        type: "REQUEST_REDDIT"
-    };
+export function invalidateSubreddit(subreddit) {
+  return {
+    type: INVALIDATE_SUBREDDIT,
+    subreddit
+  };
 }
 
-// Allow the reducer to update the state when the request finishes and brings back data.
-function receiveReddit(redditFeed) {
-    return {
-        type: "RECEIVE_REDDIT",
-        redditFeed
-    };
+function requestPosts(subreddit) {
+  return {
+    type: REQUEST_POSTS,
+    subreddit
+  };
+}
+
+function receivePosts(subreddit, json) {
+  return {
+    type: RECEIVE_POSTS,
+    subreddit,
+    posts: json.data.children.map(child => child.data),
+    receivedAt: Date.now()
+  };
+}
+
+function fetchPosts(subreddit) {
+  return dispatch => {
+    dispatch(requestPosts(subreddit));
+    return fetch(`https://www.reddit.com/r/${subreddit}.json`)
+      .then(response => response.json())
+      .then(json => dispatch(receivePosts(subreddit, json)));
+  };
+}
+
+function shouldFetchPosts(state, subreddit) {
+  const posts = state.postsBySubreddit[subreddit];
+  if (!posts) {
+    return true;
+  } else if (posts.isFetching) {
+    return false;
+  } else {
+    return posts.didInvalidate;
+  }
+}
+
+export function fetchPostsIfNeeded(subreddit) {
+  return (dispatch, getState) => {
+    if (shouldFetchPosts(getState(), subreddit)) {
+      return dispatch(fetchPosts(subreddit));
+    }
+  };
 }
